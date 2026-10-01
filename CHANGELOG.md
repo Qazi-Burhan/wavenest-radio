@@ -1,8 +1,62 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to the **Wavenest Radio** platform prototype are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+---
+
+## [2.0.0] - UI/UX Editorial Product Redesign (2026-09-28)
+
+### Redesigned Visual Identity & Design System
+- Overhauled color hierarchy from generic dark/purple SaaS to an editorial high-contrast audio-first palette: Deep Charcoal (`#090A0F`), Obsidian surfaces (`#11131C`, `#181C2A`), Warm Bone text (`#F5F5F0`), Vivid Electric Coral (`#FF5A36`), and Emerald Live indicator (`#10B981`).
+- Eliminated generic cookie-cutter gradients across all cards in favor of intentional borders, typographic asymmetry, and tactile media surfaces.
+- Implemented Google Fonts pairing: **Space Grotesk** / **Manrope** for display and titles, **Inter** for readable body and metadata.
+
+### Reworked Navigation
+- Created minimal desktop navigation with custom SVG frequency waveform brand symbol and `● LIVE 98.4 FM` pulsing badge.
+- Added scroll listener with smooth transition from transparent to frosted blur surface on scroll.
+- Built a mobile navigation drawer replacing basic dropdowns.
+
+### Redesigned Hero Section
+- Engineered an asymmetrical editorial composition: *"LIVE FROM THE INDEPENDENT FREQUENCY"*, large editorial headline *"Sound without the noise"*, and curated sub-lead.
+- Built an interactive vinyl frequency visualizer dial with concentric grooves, reactive CSS audio spectrum bars, volume slider, and live broadcast audio player integration.
+- Established strict CTA hierarchy: Primary *"Start Listening"* + Secondary *"Explore Plans"*.
+
+### Editorial Social Proof & "Why Wavenest" Manifesto
+- Replaced boxy number cards with a typographic metrics strip: *50K+ Listeners, 120+ Independent Shows, 35+ Weekly Broadcasts, 24/7 Live Programming*.
+- Created new `WhyWavenest` editorial manifesto component featuring asymmetrical composition: *01 Independent Programming, 02 Human Curation, 03 Original Voices, 04 Community First*.
+- Upgraded Features section with varied layout (large horizontal lead, split compact cards, full-width tuning banner).
+
+### High-Fidelity Shows Catalog
+- Upgraded show cards with bespoke vinyl-style artwork gradients (*Night Frequency, The Indie Hour, Open Mic, After Midnight, Sound Stories, Artist Spotlight*).
+- Added interactive hover elevation, active equalizer bars during playback, and filter pills.
+
+### Upgraded SaaS Pricing & Comparison
+- Redesigned pricing tiers (*Free, Creator, Pro*) with Creator highlighted via a refined *"MOST POPULAR"* badge and subtle accent border.
+- Integrated an animated Monthly ↔ Yearly billing toggle offering 20% annual savings ($86/yr vs $9/mo, $182/yr vs $19/mo).
+- Added a responsive 11-row feature capability comparison table with sticky header and 14-day refund guarantee note.
+
+### Split Storytelling Signup Experience
+- Transformed centered modal into a split editorial grid: Left brand narrative (*"Your next favorite voice is already broadcasting"*) + plan summary card; Right form with floating labels.
+- Added dynamic password strength evaluation (Weak, Fair, Strong), visibility toggle, and inline RFC-compliant validations.
+- Engineered polished post-signup transition screen (*"You're in. Let's tune your Wavenest experience"*).
+
+### Interactive Multi-Step Onboarding Wizard
+- Designed centered, spacious `01 — 04` wizard with animated progress track.
+- Step 1: Multi-select music & audio interests with check pills.
+- Step 2: Discovery content format selection (Live Radio, Curated Shows, Podcasts, Artist Sessions, Interviews).
+- Step 3: Listening time window selection (Morning, Afternoon, Evening, Late Night).
+- Step 4: Frequency tuned completion screen with live preferences summary and *"Enter Wavenest"* launch action.
+
+### Reimagined Member Frequency Dashboard
+- Built personalized greeting (*"Good morning/afternoon/evening, [Name]"*) with active streak tracker and member tier badge.
+- Added large "Now Live" hero banner with live audio visualizer and 1-click playback.
+- Integrated horizontal media rows for recently broadcasted archives and curated recommendations.
+
+### Global Audio Player & Accessibility
+- Fixed bottom docked streaming player with track artwork, live indicator, play/pause, prev/next track cycling, time scrubber, volume slider, and minimize/maximize dock states.
+- Enhanced semantic HTML5 markup, ARIA roles (`role="switch"`, `role="region"`, `role="slider"`), keyboard navigation, and contrast ratios.
 
 ---
 
@@ -34,57 +88,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Live Broadcast master feed quick access card.
 - Account profile modal with plan summary, selected interests, and Sign Out action.
 - Persistent dockable mini audio player at the bottom of the viewport with waveform animator, scrubber, and volume control.
-
----
-
-## [1.4] - 2026-09-28
-### Added
-- Multi-step interactive onboarding wizard (`/onboarding`) featuring 5 distinct steps:
-  1. Welcome & personalization introduction
-  2. Multi-select interest tags (minimum 1 required with validation)
-  3. Preferred content format selection
-  4. Prime listening hours selector
-  5. Completion celebration screen with dynamic confetti animation via `canvas-confetti`
-- State preservation across back/next navigation.
-
----
-
-## [1.3] - 2026-09-28
-### Added
-- Dedicated signup page (`/signup`) carrying selected tier and billing frequency banner.
-- Custom client-side form validation with inline friendly error messages:
-  - Name (required, min 2 chars)
-  - Email (regex format validation)
-  - Password (min 8 chars)
-  - Confirm Password (exact match verification)
-- Password visibility toggle (eye icon) and length meter.
-- Safe prototype persistence storing session to `localStorage` without plaintext passwords.
-
----
-
-## [1.2] - 2026-09-28
-### Added
-- Dedicated `/pricing` route and reusable `PricingSection` component.
-- Interactive Monthly / Yearly billing toggle featuring an automated 20% annual discount calculation ($9/mo -> $86/yr, $19/mo -> $182/yr).
-- 3 structured tiers: Free ($0), Creator ($9/mo, Most Popular), Pro ($19/mo, Patron Tier).
-- Comprehensive 11-feature comparison table comparing capabilities across tiers.
-
----
-
-## [1.1] - 2026-09-28
-### Added
-- Dark-first design system in `src/index.css` with tokens for `#080B12`, `#101522`, `#151B29`, `#7C5CFC`, and `#2DD4BF`.
-- SaaS Hero section with CSS/SVG reactive frequency equalizer and "ON AIR" status beacon.
-- Social Proof section with 4 stats (50K+ listeners, 120+ shows, 35+ weekly broadcasts, 24/7 live stream).
-- 4 Core Feature cards with Lucide React iconography.
-- Curated Shows section showcasing 6 resident shows with playable previews.
-- Accessible 6-question FAQ Accordion.
-
----
-
-## [1.0] - 2026-09-28
-### Added
-- Initialized React 19 + TypeScript + Vite 8 project scaffolding.
-- Configured React Router v7 for client-side routing.
-- Established project folder structure (`components/`, `pages/`, `context/`, `data/`, `types/`, `tests/`).
-- Added SVG brand favicon and Google Fonts (Inter & Manrope).

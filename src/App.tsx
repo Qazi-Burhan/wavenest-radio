@@ -42,20 +42,23 @@ export const App: React.FC = () => {
         <AudioProvider>
           <ScrollToTop />
           <div className="app-layout" id="wavenest-app">
+            <a className="skip-link" href="#main-content">Skip to content</a>
             {/* Global Sticky Navigation */}
             <Navbar />
 
             {/* Dynamic Page Routes */}
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/shows" element={<ShowsPage />} />
-              <Route path="/pricing" element={<PricingPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/signup" element={<SignupPage />} />
-              <Route path="/onboarding" element={<OnboardingPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
+            <main className="route-main" id="main-content">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/shows" element={<ShowsPage />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+                <Route path="/onboarding" element={<OnboardingPage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </main>
 
             {/* Global Footer */}
             <Footer />

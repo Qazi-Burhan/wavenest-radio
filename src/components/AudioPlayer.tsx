@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import {
   Play,
   Pause,
@@ -8,9 +8,11 @@ import {
   Maximize2,
   Radio,
   X,
-  Disc3
+  SkipBack,
+  SkipForward
 } from 'lucide-react';
 import { useAudio } from '../context/AudioContext';
+import { SHOWS_DATA } from '../data/shows';
 
 export const AudioPlayer: React.FC = () => {
   const {
@@ -24,6 +26,7 @@ export const AudioPlayer: React.FC = () => {
     isMinimized,
     isPlayerVisible,
     togglePlay,
+    playShow,
     seekTo,
     setVolume,
     toggleMute,
@@ -49,14 +52,25 @@ export const AudioPlayer: React.FC = () => {
     seekTo(percent);
   };
 
+  const handlePrevious = () => {
+    const currentIndex = SHOWS_DATA.findIndex((s) => s.id === currentShow.id);
+    const prevIndex = currentIndex > 0 ? currentIndex - 1 : SHOWS_DATA.length - 1;
+    playShow(SHOWS_DATA[prevIndex]);
+  };
+
+  const handleNext = () => {
+    const currentIndex = SHOWS_DATA.findIndex((s) => s.id === currentShow.id);
+    const nextIndex = currentIndex < SHOWS_DATA.length - 1 ? currentIndex + 1 : 0;
+    playShow(SHOWS_DATA[nextIndex]);
+  };
+
   return (
-    <div
+    <aside
       className={`audio-player-dock ${isMinimized ? 'minimized' : ''}`}
       id="global-audio-player"
-      role="region"
-      aria-label="Audio Broadcast Player"
+      aria-label="Global Audio Broadcast Bar"
     >
-      {/* Minimized Handle */}
+      {/* Minimized Quick Bar */}
       {isMinimized && (
         <button
           type="button"
@@ -65,30 +79,29 @@ export const AudioPlayer: React.FC = () => {
           id="player-maximize-btn"
           aria-label="Expand Audio Player"
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Radio size={14} />
-            <span>Now Playing: {currentShow.title}</span>
-            <Maximize2 size={12} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span className="live-pulse-dot" style={{ width: '6px', height: '6px' }}></span>
+            <span style={{ fontSize: '0.82rem', fontWeight: 600 }}>{currentShow.title}</span>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>— {currentShow.host}</span>
+            <Maximize2 size={13} style={{ marginLeft: '6px', color: 'var(--accent-coral)' }} />
           </div>
         </button>
       )}
 
       <div className="container player-container">
-        {/* Left Track Metadata */}
+        {/* Left Track & Host Info */}
         <div className="player-left">
-          <div className="player-cover-box">
-            {isPlaying ? (
-              <Disc3 size={24} className="spin-slow" style={{ animation: 'spin 4s linear infinite' }} />
-            ) : (
-              <Radio size={24} />
-            )}
+          <div className="player-cover-box" style={{ background: 'var(--bg-tertiary)' }}>
+            <div className={`player-disc-mini ${isPlaying ? 'spinning' : ''}`}>
+              <Radio size={18} style={{ color: 'var(--accent-coral)' }} />
+            </div>
           </div>
           <div className="player-meta">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div className="player-meta-headline">
               <span className="player-title">{currentShow.title}</span>
               {currentShow.isLive && (
-                <span className="badge badge-live" style={{ padding: '2px 6px', fontSize: '0.65rem' }}>
-                  <span className="pulse-dot" style={{ width: '5px', height: '5px' }}></span>
+                <span className="player-live-tag">
+                  <span className="live-pulse-dot" style={{ width: '4px', height: '4px' }}></span>
                   LIVE
                 </span>
               )}
@@ -97,27 +110,47 @@ export const AudioPlayer: React.FC = () => {
           </div>
         </div>
 
-        {/* Center Player Controls & Timeline */}
+        {/* Center Transport & Scrub Bar */}
         <div className="player-center">
           <div className="player-controls">
-            {/* Equalizer indicator */}
-            {isPlaying && (
-              <div className="eq-container" style={{ height: '14px', marginRight: '6px' }}>
-                <div className="eq-bar" style={{ width: '2px' }}></div>
-                <div className="eq-bar" style={{ width: '2px' }}></div>
-                <div className="eq-bar" style={{ width: '2px' }}></div>
-              </div>
-            )}
+            <button
+              type="button"
+              onClick={handlePrevious}
+              className="player-step-btn"
+              aria-label="Previous show"
+              title="Previous Show"
+            >
+              <SkipBack size={15} />
+            </button>
 
             <button
               type="button"
               onClick={togglePlay}
-              className="play-pause-btn"
+              className="player-play-btn"
               id="player-play-pause-btn"
               aria-label={isPlaying ? 'Pause broadcast' : 'Play broadcast'}
             >
-              {isPlaying ? <Pause size={18} /> : <Play size={18} style={{ marginLeft: '2px' }} />}
+              {isPlaying ? <Pause size={17} /> : <Play size={17} fill="currentColor" style={{ marginLeft: '2px' }} />}
             </button>
+
+            <button
+              type="button"
+              onClick={handleNext}
+              className="player-step-btn"
+              aria-label="Next show"
+              title="Next Show"
+            >
+              <SkipForward size={15} />
+            </button>
+
+            {/* Equalizer Wave Indicator */}
+            {isPlaying && (
+              <div className="player-sound-waves" aria-hidden="true">
+                <span className="mini-eq eq-1"></span>
+                <span className="mini-eq eq-2"></span>
+                <span className="mini-eq eq-3"></span>
+              </div>
+            )}
           </div>
 
           {/* Timeline Scrubber */}
@@ -141,17 +174,16 @@ export const AudioPlayer: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Volume & Controls */}
+        {/* Right Volume & Player Actions */}
         <div className="player-right">
           <button
             type="button"
             onClick={toggleMute}
-            className="btn btn-ghost btn-sm"
-            style={{ padding: '6px', color: isMuted ? '#F87171' : 'var(--text-secondary)' }}
+            className="player-util-btn"
             id="player-mute-btn"
             aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
           >
-            {isMuted || volume === 0 ? <VolumeX size={18} /> : <Volume2 size={18} />}
+            {isMuted || volume === 0 ? <VolumeX size={17} style={{ color: '#F87171' }} /> : <Volume2 size={17} />}
           </button>
 
           <input
@@ -163,38 +195,32 @@ export const AudioPlayer: React.FC = () => {
             onChange={(e) => setVolume(parseFloat(e.target.value))}
             className="volume-slider"
             id="player-volume-slider"
-            aria-label="Volume slider"
+            aria-label="Volume level"
           />
 
           <button
             type="button"
             onClick={toggleMinimize}
-            className="btn btn-ghost btn-sm"
-            style={{ padding: '6px', color: 'var(--text-secondary)' }}
+            className="player-util-btn"
             id="player-minimize-btn"
             aria-label="Minimize Player"
+            title="Minimize"
           >
-            <Minimize2 size={18} />
+            <Minimize2 size={16} />
           </button>
 
           <button
             type="button"
             onClick={closePlayer}
-            className="btn btn-ghost btn-sm"
-            style={{ padding: '6px', color: 'var(--text-secondary)' }}
+            className="player-util-btn"
             id="player-close-btn"
             aria-label="Close Player"
+            title="Close"
           >
-            <X size={18} />
+            <X size={16} />
           </button>
         </div>
       </div>
-      <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
-    </div>
+    </aside>
   );
 };

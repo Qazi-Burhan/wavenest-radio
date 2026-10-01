@@ -1,116 +1,167 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
-import { Play, Pause, Radio, ArrowRight } from 'lucide-react';
+import { Play, Pause, ArrowRight, Volume2, VolumeX } from 'lucide-react';
 import { useAudio } from '../context/AudioContext';
 
 export const Hero: React.FC = () => {
-  const { isPlaying, currentShow, togglePlay, playLiveStream } = useAudio();
+  const { isPlaying, currentShow, togglePlay, playLiveStream, volume, setVolume, isMuted, toggleMute } = useAudio();
+
+  const handleStartListening = () => {
+    if (!isPlaying) {
+      playLiveStream();
+    } else {
+      togglePlay();
+    }
+  };
 
   return (
-    <section className="hero-section" aria-label="Introduction">
+    <section className="hero-section" aria-label="Hero Overview">
       <div className="hero-glow"></div>
       <div className="container">
         <div className="hero-grid">
-          {/* Left Text Column */}
+          {/* Left Editorial Narrative Column */}
           <div className="hero-content">
             <div className="eyebrow-chip" id="hero-eyebrow">
-              <span className="pulse-dot" style={{ width: '6px', height: '6px' }}></span>
-              <span>Independent Radio, Reimagined</span>
+              <span className="live-pulse-dot" style={{ width: '6px', height: '6px' }}></span>
+              <span>LIVE FROM THE INDEPENDENT FREQUENCY</span>
             </div>
 
             <h1 className="hero-title">
-              Find your frequency. <br />
-              <span className="gradient-text-teal">Discover your people.</span>
+              Sound without <br />
+              <span className="hero-accent-text">the noise.</span>
             </h1>
 
             <p className="hero-desc">
-              Wavenest Radio brings independent music, original shows, conversations, and voices together in one modern listening experience.
+              Find your frequency. Discover independent music, original conversations, and voices worth hearing — curated for people who want more than the mainstream.
             </p>
 
             <div className="hero-cta-group">
-              <Link to="/pricing" className="btn btn-primary btn-lg" id="hero-cta-explore">
-                <span>Explore Plans</span>
-                <ArrowRight size={18} />
-              </Link>
-
               <button
                 type="button"
-                onClick={playLiveStream}
-                className="btn btn-secondary btn-lg"
+                onClick={handleStartListening}
+                className="btn btn-primary btn-lg"
                 id="hero-cta-listen-live"
+                aria-label={isPlaying ? 'Pause live broadcast' : 'Start listening to live broadcast'}
               >
-                <Radio size={18} style={{ color: 'var(--accent-secondary)' }} />
-                <span>Listen Live</span>
+                {isPlaying ? <Pause size={18} /> : <Play size={18} fill="currentColor" />}
+                <span>{isPlaying ? 'Pause Broadcast' : 'Start Listening'}</span>
               </button>
+
+              <Link
+                to="/pricing"
+                className="btn btn-secondary btn-lg"
+                id="hero-cta-explore"
+              >
+                <span>Explore Plans</span>
+                <ArrowRight size={17} />
+              </Link>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ color: 'var(--status-success)', fontWeight: 700 }}>✓</span>
+            <div className="hero-badges-strip">
+              <div className="hero-badge-item">
+                <span className="badge-check">✓</span>
                 <span>No Credit Card Required</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ color: 'var(--status-success)', fontWeight: 700 }}>✓</span>
-                <span>100% Independent</span>
+              <div className="hero-badge-item">
+                <span className="badge-check">✓</span>
+                <span>100% Commercial-Free</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ color: 'var(--status-success)', fontWeight: 700 }}>✓</span>
-                <span>24/7 Curated Sound</span>
+              <div className="hero-badge-item">
+                <span className="badge-check">✓</span>
+                <span>Lossless 320k Audio</span>
               </div>
             </div>
           </div>
 
-          {/* Right Modern Audio Visualizer Console */}
+          {/* Right Immersive Audio Visualizer Console */}
           <div className="audio-console" id="hero-audio-console">
+            {/* Visualizer Status Bar */}
             <div className="console-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className="badge badge-live">
-                  <span className="pulse-dot"></span>
-                  ON AIR
+                <span className="badge-live-pill">
+                  <span className="live-pulse-dot"></span>
+                  ● LIVE
                 </span>
-                <span className="signal-gauge">FREQ: 98.4 FM</span>
+                <span className="console-freq-tag">98.4 FM</span>
               </div>
-              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
-                STUDIO A • NY
+              <span className="console-location">
+                STUDIO A • BROOKLYN
               </span>
             </div>
 
-            {/* Equalizer Visualizer Screen */}
-            <div className="waveform-display">
-              <div className="freq-bars">
-                {[65, 40, 85, 95, 70, 50, 90, 100, 80, 60, 90, 75, 45, 85, 60, 70, 95, 80, 55, 90].map((h, i) => (
-                  <div
-                    key={i}
-                    className="freq-bar-item"
-                    style={{
-                      height: isPlaying ? `${Math.max(15, (h * (0.6 + 0.4 * Math.sin((i + Date.now() / 200) * 0.5))))}%` : '20%',
-                      animation: isPlaying ? `eq-bounce ${0.8 + (i % 5) * 0.15}s ease-in-out infinite alternate` : 'none',
-                      animationDelay: `${(i % 6) * 0.1}s`
-                    }}
-                  ></div>
-                ))}
+            {/* Circular Vinyl / Frequency Spectrum Core */}
+            <div className="vinyl-spectrum-wrapper">
+              <div className={`vinyl-disc ${isPlaying ? 'rotating' : ''}`}>
+                <div className="vinyl-groove groove-1"></div>
+                <div className="vinyl-groove groove-2"></div>
+                <div className="vinyl-center">
+                  <div className="center-dot"></div>
+                </div>
+              </div>
+
+              {/* Reactive Equalizer Spectrum Bars */}
+              <div className="waveform-display" aria-label="Audio frequency visualization">
+                <div className="freq-bars">
+                  {[65, 42, 88, 96, 74, 52, 92, 100, 84, 60, 92, 78, 48, 86, 62, 74, 98, 82, 58, 92].map((val, idx) => (
+                    <div
+                      key={idx}
+                      className="freq-bar-item"
+                      style={{
+                        height: isPlaying
+                          ? `${Math.max(16, (val * (0.65 + 0.35 * Math.sin(idx * 0.7))))}%`
+                          : '18%',
+                        animation: isPlaying
+                          ? `eq-bounce ${0.75 + (idx % 4) * 0.18}s ease-in-out infinite alternate`
+                          : 'none',
+                        animationDelay: `${(idx % 5) * 0.08}s`
+                      }}
+                    ></div>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Current Broadcast Meta & Quick Control */}
+            {/* Now Playing Console Meta and Controls */}
             <div className="console-meta">
               <div className="track-info">
-                <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--accent-secondary)' }}>
-                  Now Streaming
-                </span>
+                <span className="console-eyebrow">NOW PLAYING</span>
                 <h3 className="track-title">{currentShow.title}</h3>
-                <p className="track-host">{currentShow.host} • {currentShow.category}</p>
+                <p className="track-host">{currentShow.host} — {currentShow.category}</p>
               </div>
 
-              <button
-                type="button"
-                onClick={togglePlay}
-                className="play-pause-btn"
-                style={{ width: '48px', height: '48px' }}
-                aria-label={isPlaying ? 'Pause broadcast' : 'Play broadcast'}
-              >
-                {isPlaying ? <Pause size={22} /> : <Play size={22} style={{ marginLeft: '3px' }} />}
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {/* Volume Slider in Hero Console */}
+                <div className="console-volume-control" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <button
+                    type="button"
+                    onClick={toggleMute}
+                    aria-label={isMuted ? 'Unmute' : 'Mute'}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 0, display: 'flex' }}
+                  >
+                    {isMuted || volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                  </button>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                    value={isMuted ? 0 : volume}
+                    onChange={(e) => setVolume(parseFloat(e.target.value))}
+                    aria-label="Console volume"
+                    style={{ width: '56px', accentColor: 'var(--accent-coral)', height: '4px', cursor: 'pointer' }}
+                  />
+                </div>
+
+                {/* Big Primary Play/Pause Circle */}
+                <button
+                  type="button"
+                  onClick={togglePlay}
+                  className="play-pause-btn"
+                  aria-label={isPlaying ? `Pause ${currentShow.title}` : `Play ${currentShow.title}`}
+                >
+                  {isPlaying ? <Pause size={22} /> : <Play size={22} fill="currentColor" style={{ marginLeft: '3px' }} />}
+                </button>
+              </div>
             </div>
           </div>
         </div>

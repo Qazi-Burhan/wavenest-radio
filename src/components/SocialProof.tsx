@@ -1,37 +1,24 @@
-import React from 'react';
-import { Users, Disc, Calendar, Radio } from 'lucide-react';
+﻿import React from 'react';
 
 export const SocialProof: React.FC = () => {
   const stats = [
-    { value: '50K+', label: 'Active Monthly Listeners', icon: Users, sub: 'Worldwide community' },
-    { value: '120+', label: 'Independent Shows', icon: Disc, sub: 'Curated archives' },
-    { value: '35+', label: 'Weekly Broadcasts', icon: Calendar, sub: 'Original productions' },
-    { value: '24/7', label: 'Live Programming', icon: Radio, sub: 'Continuous stream' }
+    { value: '50K+', label: 'Listeners Worldwide', sublabel: 'Community supported' },
+    { value: '120+', label: 'Independent Shows', sublabel: 'Original curation' },
+    { value: '35+', label: 'Weekly Broadcasts', sublabel: 'Live from Studio A' },
+    { value: '24/7', label: 'Live Programming', sublabel: 'Zero commercial ads' }
   ];
 
   return (
-    <section className="stats-section" aria-label="Platform Statistics">
+    <section className="stats-strip" aria-label="Station Key Statistics">
       <div className="container">
-        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-          <p style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-            “Built for listeners who want something beyond the mainstream.”
-          </p>
-        </div>
-
         <div className="stats-grid">
-          {stats.map((stat, idx) => {
-            const Icon = stat.icon;
-            return (
-              <div key={idx} className="stat-item" id={`stat-item-${idx}`}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Icon size={18} style={{ color: 'var(--accent-secondary)' }} />
-                  <span className="stat-value">{stat.value}</span>
-                </div>
-                <span className="stat-label">{stat.label}</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{stat.sub}</span>
-              </div>
-            );
-          })}
+          {stats.map((stat, idx) => (
+            <div key={idx} className="stat-item" id={`stat-item-${idx}`}>
+              <div className="stat-number">{stat.value}</div>
+              <div className="stat-label">{stat.label}</div>
+              <div className="stat-sublabel">{stat.sublabel}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -2,7 +2,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, beforeEach } from 'vitest';
 import React from 'react';
 import { App } from '../App';
-import { SHOWS_DATA } from '../data/shows';
 
 describe('Wavenest Radio Application Test Suite', () => {
   beforeEach(() => {
@@ -13,9 +12,29 @@ describe('Wavenest Radio Application Test Suite', () => {
   it('renders homepage with brand title, hero section, and navigation', () => {
     render(<App />);
     expect(screen.getAllByText('WAVENEST').length).toBeGreaterThan(0);
-    expect(screen.getByText(/Independent Radio, Reimagined/i)).toBeInTheDocument();
+    expect(screen.getByText(/Live from the independent frequency/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Find your frequency/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Explore Plans/i).length).toBeGreaterThan(0);
+  });
+
+  it('keeps the mobile navigation closed until opened and closes it after navigation', () => {
+    render(<App />);
+
+    const menuToggle = screen.getByRole('button', { name: /open navigation menu/i });
+    const mobileDrawer = document.getElementById('mobile-drawer');
+
+    expect(menuToggle).toHaveAttribute('aria-expanded', 'false');
+    expect(mobileDrawer).toHaveAttribute('aria-hidden', 'true');
+
+    fireEvent.click(menuToggle);
+    expect(screen.getByRole('button', { name: /close navigation menu/i })).toHaveAttribute('aria-expanded', 'true');
+    expect(mobileDrawer).toHaveAttribute('aria-hidden', 'false');
+
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(mobileDrawer).toHaveAttribute('aria-hidden', 'true');
+    fireEvent.click(screen.getByRole('button', { name: /open navigation menu/i }));
+    fireEvent.click(screen.getByRole('button', { name: 'Pricing' }));
+    expect(screen.getByRole('button', { name: /open navigation menu/i })).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('toggles monthly/yearly billing and updates pricing dynamically with 20% discount', async () => {
@@ -52,6 +71,7 @@ describe('Wavenest Radio Application Test Suite', () => {
     expect(await screen.findByText('Please enter your full name.')).toBeInTheDocument();
     expect(screen.getByText('Please enter a valid email address.')).toBeInTheDocument();
     expect(screen.getByText('Password must contain at least 8 characters.')).toBeInTheDocument();
+    expect(screen.getByText('Please accept the listener agreement.')).toBeInTheDocument();
 
     // 2. Test invalid email format
     const emailInput = screen.getByLabelText(/Email Address \*/i);
@@ -81,6 +101,7 @@ describe('Wavenest Radio Application Test Suite', () => {
     fireEvent.change(screen.getByLabelText(/Email Address \*/i), { target: { value: 'julian@wavenest.fm' } });
     fireEvent.change(screen.getByLabelText(/Password \(Min. 8 characters\) \*/i), { target: { value: 'MasterKey2026!' } });
     fireEvent.change(screen.getByLabelText(/Confirm Password \*/i), { target: { value: 'MasterKey2026!' } });
+    fireEvent.click(screen.getByLabelText(/I agree to the member terms/i));
 
     const submitBtn = screen.getByRole('button', { name: /Create Account & Continue/i });
     fireEvent.click(submitBtn);
@@ -125,6 +146,9 @@ describe('Wavenest Radio Application Test Suite', () => {
     fireEvent.click(continueBtn);
 
     expect(await screen.findByText(/Favorite Content Formats/i)).toBeInTheDocument();
+    const liveRadioChoice = screen.getByRole('checkbox', { name: /Live Radio/i });
+    fireEvent.keyDown(liveRadioChoice, { key: ' ' });
+    expect(liveRadioChoice).toHaveAttribute('aria-checked', 'false');
     const continueBtnStep3 = screen.getByRole('button', { name: /Continue/i });
     fireEvent.click(continueBtnStep3);
 

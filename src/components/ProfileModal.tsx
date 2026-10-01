@@ -1,6 +1,6 @@
-import React from 'react';
+﻿import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, LogOut, Sliders } from 'lucide-react';
+import { X, LogOut, Sliders, Clock, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 interface ProfileModalProps {
@@ -28,76 +28,71 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
     <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="profile-title">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         {/* Modal Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div
-              style={{
-                width: '44px',
-                height: '44px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, var(--accent-primary) 0%, #3B82F6 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#FFF',
-                fontSize: '1.2rem',
-                fontWeight: 700
-              }}
-            >
+        <div className="modal-header-row">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div className="profile-avatar-circle">
               {user.name.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h3 id="profile-title" style={{ fontSize: '1.15rem', fontWeight: 700 }}>{user.name}</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{user.email}</p>
+              <h3 id="profile-title" className="profile-name-text">{user.name}</h3>
+              <p className="profile-email-text">{user.email}</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            style={{ color: 'var(--text-secondary)', padding: '6px', borderRadius: 'var(--radius-sm)' }}
+            className="modal-close-trigger"
             aria-label="Close Profile Modal"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
         {/* Plan Status Card */}
-        <div style={{ background: '#090d18', padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', marginBottom: '20px' }}>
+        <div className="profile-plan-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Active Membership</span>
-            <span className={`badge ${user.planId === 'pro' ? 'badge-teal' : 'badge-purple'}`}>
-              {user.planId.toUpperCase()} PLAN
+            <span className="profile-kicker">Active Membership</span>
+            <span className="profile-plan-badge">
+              {user.planId.toUpperCase()} TIER
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
-            <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+            <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
               {user.planId === 'free' ? '$0' : user.planId === 'creator' ? (user.billingCycle === 'yearly' ? '$86' : '$9') : (user.billingCycle === 'yearly' ? '$182' : '$19')}
             </span>
             <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-              /{user.billingCycle === 'yearly' ? 'year (Save 20%)' : 'month'}
+              /{user.billingCycle === 'yearly' ? 'year (20% Off)' : 'month'}
             </span>
           </div>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '8px' }}>
-            Prototype session status: Verified & active in localStorage.
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '10px', fontSize: '0.78rem', color: 'var(--status-live)' }}>
+            <ShieldCheck size={14} />
+            <span>Patron Status Active • 320k Lossless Enabled</span>
+          </div>
         </div>
 
         {/* Preferences Summary */}
-        <div style={{ marginBottom: '24px' }}>
-          <h4 style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '10px' }}>
-            Personalized Frequencies
+        <div style={{ marginBottom: '22px' }}>
+          <h4 style={{ fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-secondary)', marginBottom: '10px' }}>
+            Tuned Sound Preferences
           </h4>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '12px' }}>
             {user.interests && user.interests.length > 0 ? (
               user.interests.map((interest, idx) => (
-                <span key={idx} className="badge badge-purple" style={{ fontSize: '0.75rem', textTransform: 'none' }}>
+                <span key={idx} className="genre-pill active" style={{ fontSize: '0.75rem', padding: '4px 10px' }}>
                   {interest}
                 </span>
               ))
             ) : (
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>No interests selected yet.</span>
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>No interests selected yet.</span>
             )}
           </div>
+
+          {user.listeningTime && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+              <Clock size={14} style={{ color: 'var(--accent-coral)' }} />
+              <span>Preferred Listening Window: <strong>{user.listeningTime}</strong></span>
+            </div>
+          )}
         </div>
 
         {/* Action Buttons */}
@@ -109,7 +104,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
             id="profile-manage-preferences"
           >
             <Sliders size={16} />
-            <span>Manage Preferences & Taste Profile</span>
+            <span>Retune Audio Preferences</span>
           </button>
 
           <button

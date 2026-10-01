@@ -59,13 +59,16 @@ export const PRICING_PLANS: Plan[] = [
 
 export const PLAN_COMPARISON_TABLE = [
   { feature: '24/7 Live Radio Streaming', free: true, creator: true, pro: true },
+  { feature: 'Premium Shows & Series', free: false, creator: true, pro: true },
   { feature: 'Standard Audio (128 kbps)', free: true, creator: true, pro: true },
   { feature: 'Weekly Program Schedule', free: true, creator: true, pro: true },
   { feature: 'Ad-Free Listening', free: false, creator: true, pro: true },
   { feature: 'High-Fidelity Audio (320 kbps)', free: false, creator: true, pro: true },
   { feature: 'Exclusive Artist Interviews', free: false, creator: true, pro: true },
   { feature: 'Early Episode Drops', free: false, creator: true, pro: true },
+  { feature: 'Podcast Archive', free: true, creator: true, pro: true },
   { feature: 'Personalized Recommendations', free: false, creator: true, pro: true },
+  { feature: 'Community Events', free: false, creator: false, pro: true },
   { feature: 'Full Archive Vault Access', free: false, creator: false, pro: true },
   { feature: 'Live Studio Green Rooms', free: false, creator: false, pro: true },
   { feature: 'Community Discord & Direct Host Access', free: false, creator: false, pro: true }

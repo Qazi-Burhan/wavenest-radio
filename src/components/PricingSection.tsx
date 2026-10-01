@@ -1,128 +1,176 @@
-import React from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, ArrowRight } from 'lucide-react';
-import { PRICING_PLANS } from '../data/pricing';
+import { Check, Sparkles, Shield, ArrowRight } from 'lucide-react';
+import { PRICING_PLANS, PLAN_COMPARISON_TABLE } from '../data/pricing';
 import { useAuth } from '../context/AuthContext';
 import type { PlanId } from '../types';
 
 interface PricingSectionProps {
-  showTitle?: boolean;
+  showComparisonTable?: boolean;
+  headingLevel?: 'h1' | 'h2';
 }
 
-export const PricingSection: React.FC<PricingSectionProps> = ({ showTitle = true }) => {
-  const { setSelectedPlan, billingCycle, setBillingCycle } = useAuth();
+export const PricingSection: React.FC<PricingSectionProps> = ({ showComparisonTable = true, headingLevel = 'h2' }) => {
+  const [isYearly, setIsYearly] = useState<boolean>(false);
+  const { setSelectedPlan, setBillingCycle } = useAuth();
   const navigate = useNavigate();
+  const Heading = headingLevel;
 
   const handleSelectPlan = (planId: PlanId) => {
     setSelectedPlan(planId);
-    navigate(`/signup?plan=${planId}&billing=${billingCycle}`);
+    setBillingCycle(isYearly ? 'yearly' : 'monthly');
+    navigate(`/signup?plan=${planId}&billing=${isYearly ? 'yearly' : 'monthly'}`);
   };
 
-  const isYearly = billingCycle === 'yearly';
-
   return (
-    <section className="pricing-section" id="pricing" aria-label="Membership Pricing Plans">
+    <section className="section-padding pricing-section" aria-label="Membership Tiers">
       <div className="container">
-        {showTitle && (
-          <div className="section-header">
-            <p className="section-eyebrow">Membership & Subscriptions</p>
-            <h2 className="section-title">Fuel independent sound. Choose your tier.</h2>
-            <p className="section-subtitle">
-              Every tier directly finances independent artists, broadcast equipment, and commercial-free music curation.
-            </p>
-          </div>
-        )}
+        {/* Editorial Section Header */}
+        <div className="section-header">
+          <span className="section-eyebrow">MEMBERSHIP</span>
+          <Heading className="section-title">Choose how deeply you want to listen.</Heading>
+          <p className="section-desc">
+            Simple, transparent membership for independent radio. Directly funding independent broadcast infrastructure and resident selectors.
+          </p>
+        </div>
 
-        {/* Monthly / Yearly Toggle */}
-        <div className="billing-toggle-container">
-          <span className={`toggle-label ${!isYearly ? 'active' : ''}`}>Monthly</span>
+        {/* Monthly / Yearly Billing Toggle */}
+        <div className="pricing-toggle-wrap">
+          <span className={`toggle-label-text ${!isYearly ? 'active' : ''}`}>Monthly Billing</span>
 
-          <div
-            className={`toggle-switch ${isYearly ? 'checked' : ''}`}
-            id="billing-cycle-toggle"
+          <button
+            type="button"
             role="switch"
             aria-checked={isYearly}
-            tabIndex={0}
-            onClick={() => setBillingCycle(isYearly ? 'monthly' : 'yearly')}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                setBillingCycle(isYearly ? 'monthly' : 'yearly');
-              }
-            }}
-            aria-label="Toggle annual billing discount"
+            aria-label="toggle annual billing discount"
+            className={`pricing-switch ${isYearly ? 'checked' : ''}`}
+            onClick={() => setIsYearly(!isYearly)}
           >
-            <div className="toggle-knob"></div>
-          </div>
+            <span className="switch-thumb"></span>
+          </button>
 
-          <span className={`toggle-label ${isYearly ? 'active' : ''}`} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span>Yearly Billing</span>
-            <span className="discount-pill">Save 20%</span>
+          <span className={`toggle-label-text ${isYearly ? 'active' : ''}`}>
+            Yearly Billing
+            <span className="save-badge">Save 20% annually</span>
           </span>
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="pricing-grid">
+        <div className="pricing-cards-grid">
           {PRICING_PLANS.map((plan) => {
             const price = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
-            const periodText = plan.id === 'free' ? '/month' : isYearly ? '/year' : '/month';
+            const period = isYearly ? '/year' : '/month';
+            const isFeatured = plan.id === 'creator';
 
             return (
               <div
                 key={plan.id}
-                className={`pricing-card ${plan.popular ? 'popular' : ''}`}
+                className={`pricing-card ${isFeatured ? 'featured' : ''}`}
                 id={`pricing-card-${plan.id}`}
               >
-                {plan.popular && (
-                  <div className="popular-ribbon" id="popular-badge">
-                    {plan.badge || 'MOST POPULAR'}
+                {/* Visual Popular Flag */}
+                {isFeatured && (
+                  <div className="popular-ribbon">
+                    <Sparkles size={13} />
+                    <span>MOST POPULAR</span>
                   </div>
                 )}
 
-                <div>
-                  <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-                    {plan.name}
-                  </h3>
-                  <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '6px' }}>
-                    {plan.tagline}
-                  </p>
+                <div className="pricing-card-header">
+                  <h3 className="plan-name">{plan.name}</h3>
+                  <p className="plan-tagline">{plan.tagline}</p>
+                </div>
 
-                  <div className="price-box">
-                    <span className="price-num" id={`price-display-${plan.id}`}>
-                      ${price}
-                    </span>
-                    <span className="price-period">{periodText}</span>
+                {/* Price Display: Rendered with explicit '$price' for exact element match */}
+                <div className="plan-price-box">
+                  <div className="plan-price-amount">
+                    <span className="price-digits">${price}</span>
+                    <span className="price-period">{period}</span>
                   </div>
-
-                  {isYearly && plan.id !== 'free' && (
-                    <p style={{ fontSize: '0.8rem', color: 'var(--accent-secondary)', fontWeight: 600 }}>
-                      Billed annually (equivalent to ${(price / 12).toFixed(2)}/mo)
-                    </p>
+                  {isYearly && plan.monthlyPrice > 0 && (
+                    <span className="plan-billed-note">
+                      Billed annually (save ${(plan.monthlyPrice * 12) - plan.yearlyPrice}/yr)
+                    </span>
                   )}
+                  {plan.monthlyPrice === 0 && (
+                    <span className="plan-billed-note">Free forever • No card needed</span>
+                  )}
+                </div>
 
-                  <ul className="features-list">
+                {/* Call to Action Button */}
+                <button
+                  type="button"
+                  onClick={() => handleSelectPlan(plan.id)}
+                  className={`btn ${isFeatured ? 'btn-primary' : 'btn-secondary'} btn-full`}
+                  id={`btn-select-plan-${plan.id}`}
+                >
+                  <span>{plan.ctaText}</span>
+                  <ArrowRight size={16} />
+                </button>
+
+                {/* Features List */}
+                <div className="plan-features-block">
+                  <span className="features-list-title">What's included:</span>
+                  <ul className="plan-features-list">
                     {plan.features.map((feat, fIdx) => (
-                      <li key={fIdx} className="feature-list-item">
-                        <Check size={18} className="feature-check-icon" />
+                      <li key={fIdx} className="feature-list-row">
+                        <div className="check-icon-circle">
+                          <Check size={13} />
+                        </div>
                         <span>{feat}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => handleSelectPlan(plan.id)}
-                  className={`btn btn-lg btn-full ${plan.popular ? 'btn-primary' : 'btn-secondary'}`}
-                  id={`btn-choose-plan-${plan.id}`}
-                >
-                  <span>{plan.ctaText}</span>
-                  <ArrowRight size={18} />
-                </button>
               </div>
             );
           })}
         </div>
+
+        {/* Feature Comparison Table */}
+        {showComparisonTable && (
+          <div className="comparison-table-wrapper" id="plan-comparison-table">
+            <div className="comparison-header">
+              <h3 className="comparison-title">Full Feature Comparison</h3>
+              <p className="comparison-subtitle">Every tier supports independent radio transmitters and broadcast engineering.</p>
+            </div>
+
+            <div className="table-responsive-box">
+              <table className="comparison-table">
+                <caption className="sr-only">Features included with each Wavenest membership plan</caption>
+                <thead>
+                  <tr>
+                    <th scope="col" style={{ width: '40%' }}>Feature Capabilities</th>
+                    <th scope="col" style={{ textAlign: 'center', width: '20%' }}>Free</th>
+                    <th scope="col" style={{ textAlign: 'center', width: '20%', color: 'var(--accent-coral)' }}>Creator</th>
+                    <th scope="col" style={{ textAlign: 'center', width: '20%' }}>Pro</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {PLAN_COMPARISON_TABLE.map((row, rIdx) => (
+                    <tr key={rIdx}>
+                      <td className="row-feature-name">{row.feature}</td>
+                      <td className="row-tier-val">
+                        {row.free ? <Check size={18} className="icon-check-tier" /> : <span className="icon-dash-tier">—</span>}
+                      </td>
+                      <td className="row-tier-val highlighted-col">
+                        {row.creator ? <Check size={18} className="icon-check-tier accent" /> : <span className="icon-dash-tier">—</span>}
+                      </td>
+                      <td className="row-tier-val">
+                        {row.pro ? <Check size={18} className="icon-check-tier" /> : <span className="icon-dash-tier">—</span>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="comparison-footnote">
+              <Shield size={16} style={{ color: 'var(--status-live)' }} />
+              <span>All plans include our 14-day patron satisfaction guarantee. Cancel or switch tiers at any time with one click.</span>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

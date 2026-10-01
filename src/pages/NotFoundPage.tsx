@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Radio, ArrowLeft } from 'lucide-react';
 
@@ -6,8 +6,8 @@ export const NotFoundPage: React.FC = () => {
   return (
     <div
       style={{
-        padding: '96px 24px',
-        minHeight: '70vh',
+        padding: '120px 24px 96px',
+        minHeight: '75vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -15,30 +15,29 @@ export const NotFoundPage: React.FC = () => {
       }}
       id="not-found-container"
     >
-      <div style={{ maxWidth: '520px' }}>
+      <div style={{ maxWidth: '540px' }}>
         <div
           style={{
             width: '88px',
             height: '88px',
             borderRadius: '50%',
-            background: 'rgba(124, 92, 252, 0.12)',
-            border: '2px dashed var(--accent-primary)',
+            background: 'rgba(255, 90, 54, 0.1)',
+            border: '2px dashed var(--accent-coral)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#A78BFA',
-            margin: '0 auto 24px',
-            animation: 'pulse-ring 2.5s infinite'
+            color: 'var(--accent-coral)',
+            margin: '0 auto 24px'
           }}
         >
           <Radio size={40} />
         </div>
 
-        <span className="badge badge-purple" style={{ marginBottom: '16px' }}>
-          Error 404 • Frequency Not Found
-        </span>
+        <div className="eyebrow-chip" style={{ margin: '0 auto 16px' }}>
+          <span>Error 404 • Frequency Not Found</span>
+        </div>
 
-        <h1 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '12px', letterSpacing: '-0.02em' }}>
+        <h1 style={{ fontSize: '3rem', fontFamily: 'var(--font-display)', fontWeight: 800, marginBottom: '12px', letterSpacing: '-0.02em' }}>
           Lost in the signal?
         </h1>
 
@@ -46,7 +45,7 @@ export const NotFoundPage: React.FC = () => {
           The frequency or broadcast channel you're trying to tune into does not exist or has moved to an unlisted archive.
         </p>
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <Link to="/" className="btn btn-primary btn-lg" id="notfound-home-btn">
             <ArrowLeft size={18} />
             <span>Return Home</span>

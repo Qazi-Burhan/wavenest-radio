@@ -1,7 +1,7 @@
-# Project Summary: Wavenest Radio
+﻿# Project Summary: Wavenest Radio
 
 **Author:** Supreme-Trader  
-**Course / Assignment:** Individual Week 3 Internship Project  
+**Course / Assignment:** Individual Week 3 Internship Project — UI/UX Editorial Product Redesign  
 **Date:** September 28, 2026  
 **Repository:** `wavenest-radio`
 
@@ -9,65 +9,62 @@
 
 ## 1. Executive Summary & Purpose
 
-Wavenest Radio is a portfolio-grade, client-ready SaaS marketing website, pricing engine, signup flow, and onboarding portal built for a fictional independent radio station. Modern mainstream audio streaming platforms are increasingly dominated by algorithmic loops, corporate playlists, and repetitive Top-40 formulas. Wavenest Radio models an independent alternative: a human-curated, listener-supported digital station broadcasting 24/7 commercial-free underground music, resident artist podcasts, and candid cultural discussions.
+Wavenest Radio is a portfolio-grade, client-ready SaaS marketing website, pricing engine, signup flow, and onboarding portal built for a fictional independent radio station (*Independent voices. Original sound. Your frequency.*). Modern mainstream audio streaming platforms are increasingly dominated by algorithmic loops, corporate playlists, and repetitive Top-40 formulas. Wavenest Radio models an independent alternative: a human-curated, listener-supported digital station broadcasting 24/7 commercial-free underground music, resident artist podcasts, and candid cultural discussions.
 
-The objective of this project was to design and engineer a complete, working front-end digital product that blends the creative identity of an independent cultural institution with the rigorous UX, conversion architecture, and polish of modern SaaS products like Linear, Raycast, and Spotify.
-
----
-
-## 2. Design Philosophy & Visual Identity
-
-To embody an audio-first, editorial, and technologically sophisticated brand, the application implements a custom dark-first design system without relying on generic component libraries:
-
-- **Curated Dark Palette:** Deep void background (`#080B12`), secondary chassis (`#101522`), and structured surface cards (`#151B29`), punctuated by an electric violet primary accent (`#7C5CFC`) and a vibrant teal secondary accent (`#2DD4BF`).
-- **Typography Hierarchy:** Clean, modern geometric headings rendered in *Manrope* paired with high-legibility body copy in *Inter*.
-- **Tactile Audio Aesthetics:** Rather than static stock photography, the hero and player consoles feature dynamic CSS/SVG frequency equalizer waves, an animated "ON AIR" pulsating beacon, and custom tone synthesis.
-- **Responsive Architecture:** Fully tested from 360px mobile viewports up to 1440px wide screens, utilizing a responsive navigation drawer, fluid grids, and adaptive card stacks.
+The objective of this major UI/UX redesign was to elevate Wavenest from a conventional dark SaaS template to an **editorial, audio-first, portfolio-grade digital product** combining the feeling of a premium media platform, modern SaaS product, independent radio culture, and an editorial magazine.
 
 ---
 
-## 3. Technology Stack & Key Implementation Decisions
+## 2. Design Philosophy & Visual System Redesign
+
+To embody an audio-first, editorial, and technologically sophisticated brand, the application implements a mature, intentional design system:
+
+- **Mature Color Hierarchy:** Deep Charcoal (`#090A0F`), Obsidian chassis surfaces (`#11131C`, `#181C2A`), and Warm Bone text (`#F5F5F0`). Accentuated by Vivid Electric Coral (`#FF5A36`) and an Emerald Live status beacon (`#10B981`).
+- **Typography Scale:** Google Fonts pairing: **Space Grotesk** & **Manrope** for large editorial headlines and display elements, paired with high-legibility body typography in **Inter**.
+- **Tactile Audio Aesthetics:** Replaced generic cards with asymmetric layouts, an interactive vinyl frequency dial with circular track grooves, reactive equalizer spectrum bars, floating metadata tags, and procedural dual-oscillator ambient audio preview via HTML5 Web Audio API.
+- **Asymmetrical Editorial Sections:**
+  - Hero with large editorial headline *"Sound without the noise"*, vinyl frequency dial visualizer, and strict CTA hierarchy.
+  - Typographic metrics strip (50K+ Listeners, 120+ Shows, 35+ Broadcasts, 24/7 Live).
+  - Editorial *"Why Wavenest"* manifesto grid (01 Programming, 02 Human Curation, 03 Original Voices, 04 Community First).
+  - Varied Features layout (large horizontal lead, split compact cards, full-width tuning banner).
+  - High-fidelity shows catalog with vinyl artwork covers and active playing equalizer bars.
+  - SaaS pricing tiers with featured Creator ribbon, 20% annual savings switch, and 11-row comparison table.
+  - Split storytelling signup grid with live password strength meter.
+  - Centered 01—04 onboarding wizard with progress tracker.
+  - Personalized Member Frequency Hub with "Now Live" hero and horizontal media rows.
+- **Responsive Architecture:** Thoroughly verified from 360px mobile viewports up to 1440px desktop screens, featuring a sticky blur navbar with mobile drawer, compact dockable bottom audio player, and zero horizontal overflow.
+
+---
+
+## 3. Technology Stack & Implementation Decisions
 
 | Layer | Technology | Decision Rationale |
 | :--- | :--- | :--- |
-| **Framework** | **React 19 + TypeScript** | Provides strict component type-safety, modular UI architecture, and predictable state. |
-| **Build Tool** | **Vite 8** | Instant Hot Module Replacement (HMR) and optimized sub-second production builds (1.13s bundle time). |
-| **Styling** | **Modern Vanilla CSS (Custom Properties)** | 100% control over design tokens, glassmorphism, responsive breakpoints, and animations without Tailwind build overhead or version collisions. |
-| **Audio Engine** | **HTML5 Web Audio API** | Implements real procedural dual-oscillator harmonic chord synthesis (triangle + sine) when shows are previewed, ensuring the browser produces real soothing sound without broken external MP3 links. |
+| **Framework** | **React 19 + TypeScript** | Strict component type-safety, modular UI architecture, and zero compilation warnings (`tsc -b`). |
+| **Build Tool** | **Vite 8** | Instant Hot Module Replacement (HMR) and optimized sub-second production builds (733ms bundle time). |
+| **Styling** | **Modern Vanilla CSS (Custom Design System)** | Maximum flexibility with CSS custom properties, responsive container tokens, and fluid typography without heavy CSS utility dependencies. |
+| **Audio Engine** | **HTML5 Web Audio API** | Real procedural dual-oscillator harmonic chord synthesis (triangle + sine) when shows are previewed, ensuring the browser produces real audio without external MP3 dependencies. |
 | **Persistence** | **LocalStorage Prototype State** | Encapsulated in `AuthContext` to persist user profiles, selected plans, and onboarding tags across browser reloads while strictly omitting sensitive password storage. |
-| **Testing** | **Vitest + Testing Library** | Comprehensive 11-test suite validating business rules, edge cases, and client-side form validation. |
+| **Testing** | **Vitest 5 + React Testing Library** | Comprehensive 11-test automated suite validating business rules, edge cases, and client-side form validation (100% pass rate). |
 
 ---
 
-## 4. Key Features & User Journey
+## 4. Key Pages & Routes Implemented
 
-1. **SaaS Hero & Social Proof:** Value proposition with working "Listen Live" and "Explore Plans" CTAs, supported by 4 key station statistics.
-2. **Curated Shows Catalog:** 6 resident shows with duration pills, broadcast schedules, air slots, and working "Preview" audio triggers.
-3. **Dynamic Pricing Tiers:** Free ($0), Creator ($9/mo, Most Popular), and Pro ($19/mo) with an interactive Monthly/Yearly toggle executing an automated 20% discount ($86/yr and $182/yr).
-4. **Selected Plan Carry-Through & Form Validation:** Carries the chosen plan and billing frequency directly into `/signup`. Validates full name (min 2 chars), email (regex pattern), password (min 8 chars), and password confirmation with immediate inline feedback.
-5. **Multi-Step Onboarding Wizard:** 5 distinct steps guiding users through music interests (min 1 required), content preferences, and prime listening hours, concluding with a celebratory confetti blast and redirection.
-6. **Personalized Member Dashboard:** Time-aware greeting (*"Good morning/afternoon/evening, [User Name]"*), active subscription details, recommended shows algorithmically matched to onboarding interests, and an interactive account profile modal.
-7. **Persistent Docked Audio Player:** Sticky bottom bar featuring a play/pause toggle, interactive seek scrubber, time elapsed/duration display, volume slider, mute, and minimize/expand toggle.
-
----
-
-## 5. Problems Discovered, Debugged & Fixed
-
-1. **Unused Imports & Strict Type Import Rules (`verbatimModuleSyntax`):**  
-   *Issue:* Vite's TypeScript configuration required type-only imports (`import type { Show }`) and flagged unused Lucide icons (`Sparkles`, `Activity`).  
-   *Fix:* Cleaned all imports and refactored type imports to strictly use `import type`, resulting in 0 compiler warnings.
-2. **Ambiguous Testing Library Queries:**  
-   *Issue:* Testing queries for `WAVENEST` and `Find your frequency` failed because text appeared in multiple legitimate locations (Navbar and Footer, Hero and Bottom Banner).  
-   *Fix:* Converted ambiguous single queries to `getAllByText` length assertions and added explicit `data-testid` attributes.
-3. **Corrupted LocalStorage Fault Tolerance:**  
-   *Issue:* If manual testing or bad storage left invalid JSON, the app could crash during mounting.  
-   *Fix:* Wrapped `JSON.parse` in try/catch blocks within `AuthContext`, defaulting to an unauthenticated state gracefully.
+1. `/` — **Homepage:** Hero with vinyl visualizer dial, typographic metrics strip, Why Wavenest manifesto, varied features grid, shows showcase, pricing tiers, and FAQ accordion.
+2. `/shows` — **Discover Shows:** Live 98.4 FM continuous broadcast banner, real-time search query filter, genre filter pills, and show cards with cover art.
+3. `/pricing` — **Membership Tiers:** Free, Creator, and Pro tiers with Monthly / Yearly toggle (20% discount calculation), 11-row capability comparison table, and satisfaction guarantee.
+4. `/signup` — **Split Signup:** Left brand narrative & selected tier summary card; Right form with password strength indicator, inline validation, and success transition.
+5. `/onboarding` — **Taste Wizard:** Centered `01 — 04` progression for genre interests, discovery formats, listening window, and completion summary screen.
+6. `/dashboard` — **Member Frequency Hub:** Time-of-day greeting, "Now Live" hero banner with live visualizer, listening streak, recommended shows, and horizontal media rows.
+7. `/about` — **Station Manifesto:** Our Story, Why Independent Radio Matters, Human Curation, and Architecture overview with portfolio notice banner.
+8. `*` — **404 Not Found:** Custom *"Lost in the signal?"* frequency error view with return home button.
 
 ---
 
-## 6. What Could Be Improved With More Time
+## 5. Verification & Test Summary
 
-1. **Backend Integration:** Integrate Supabase or PostgreSQL with Node.js/Express for real multi-tenant account authentication and session tokens.
-2. **Stripe Billing Portal:** Connect Stripe Elements in test mode to support real mock credit card and Apple Pay processing.
-3. **HLS Audio Streaming:** Connect a real Shoutcast/Icecast audio stream URL for real radio streaming alongside the procedural synthesizer.
-4. **Social Sharing:** Add OpenGraph dynamic image cards when sharing individual shows on social media.
+- **Automated Tests:** 11 / 11 Vitest tests passed (100%).
+- **TypeScript Check:** `tsc -b` compiled with 0 errors and 0 unused variables.
+- **Production Build:** `vite build` completed cleanly into `dist/` in 733ms.
+- **Browser QA:** Tested sticky navbar, audio playback, volume scrubbing, billing discount calculation, and session persistence across page reloads.

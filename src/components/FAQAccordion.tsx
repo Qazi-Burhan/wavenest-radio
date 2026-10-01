@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+﻿import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { FAQ_DATA } from '../data/faq';
 
 export const FAQAccordion: React.FC = () => {
@@ -12,51 +12,54 @@ export const FAQAccordion: React.FC = () => {
   };
 
   return (
-    <section className="faq-section" id="faq" aria-label="Frequently Asked Questions">
-      <div className="container">
+    <section className="section-padding faq-section" aria-label="Frequently Asked Questions">
+      <div className="container" style={{ maxWidth: '880px' }}>
         <div className="section-header">
-          <p className="section-eyebrow">Got Questions?</p>
-          <h2 className="section-title">Frequently Asked Questions</h2>
-          <p className="section-subtitle">
-            Everything you need to know about our broadcasts, memberships, and independent mission.
+          <span className="section-eyebrow">COMMON QUESTIONS</span>
+          <h2 className="section-title">Everything you need to know.</h2>
+          <p className="section-desc">
+            Independent, listener-backed broadcasting is simple and transparent. Here are answers to the most common questions.
           </p>
         </div>
 
-        <div className="faq-list">
-          {FAQ_DATA.map((item) => {
+        <div className="faq-list" role="region" aria-label="FAQ Accordion">
+          {FAQ_DATA.map((item, idx) => {
             const isOpen = openIds.includes(item.id);
+            const contentId = `faq-answer-${item.id}`;
+            const headerId = `faq-header-${item.id}`;
+
             return (
               <div
                 key={item.id}
                 className={`faq-item ${isOpen ? 'open' : ''}`}
-                id={`faq-item-${item.id}`}
+                id={`faq-item-${idx}`}
               >
                 <button
                   type="button"
-                  className="faq-button"
-                  onClick={() => toggleItem(item.id)}
+                  id={headerId}
+                  className="faq-question-btn"
                   aria-expanded={isOpen}
-                  aria-controls={`faq-answer-${item.id}`}
-                  id={`faq-btn-${item.id}`}
+                  aria-controls={contentId}
+                  onClick={() => toggleItem(item.id)}
                 >
-                  <span>{item.question}</span>
-                  {isOpen ? (
-                    <ChevronUp size={20} style={{ color: 'var(--accent-secondary)' }} />
-                  ) : (
-                    <ChevronDown size={20} style={{ color: 'var(--text-muted)' }} />
-                  )}
+                  <span className="faq-question-text">{item.question}</span>
+                  <div className={`faq-chevron-circle ${isOpen ? 'rotate' : ''}`}>
+                    <ChevronDown size={17} />
+                  </div>
                 </button>
 
-                {isOpen && (
-                  <div
-                    className="faq-answer"
-                    id={`faq-answer-${item.id}`}
-                    role="region"
-                    aria-labelledby={`faq-btn-${item.id}`}
-                  >
-                    <p>{item.answer}</p>
+                <div
+                  id={contentId}
+                  role="region"
+                  aria-labelledby={headerId}
+                  aria-hidden={!isOpen}
+                  inert={!isOpen}
+                  className={`faq-answer-panel ${isOpen ? 'visible' : ''}`}
+                >
+                  <div className="faq-answer-inner">
+                    <p className="faq-answer-text">{item.answer}</p>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}
