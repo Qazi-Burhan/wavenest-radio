@@ -476,19 +476,23 @@ Several implicit `any` types and unused variable warnings were present in early 
 
 ## Screenshots
 
-> Screenshots can be added here by dragging images into this section or using the Markdown image syntax below.
+### Homepage
+![Homepage Hero](./Screenshots/Home.png)
 
-```markdown
-![Homepage Hero](https://Screenshots/Home.png)
-![Shows Catalog](https://Screenshots/Show.png)
-![Pricing Page](https://Screenshots/SighnUp.png)
-![Signup Form](https://Screenshots/SighnUp.png)
-![Onboarding Wizard](https://Screenshots/Onboarding.png)
-![Member Dashboard](https://Screenshots/MemberDashborad.png)
-![Audio Player](./docs/screenshots/audio-player.png)
-```
+### Shows Catalog
+![Shows Catalog](./Screenshots/Show.png)
 
-Place screenshots in a `docs/screenshots/` folder at the project root to activate the previews above.
+### Pricing Page
+![Pricing Page](./Screenshots/Price.png)
+
+### Signup Form
+![Signup Form](./Screenshots/SighnUp.png)
+
+### Onboarding Wizard
+![Onboarding Wizard](./Screenshots/Onboarding.png)
+
+### Member Dashboard
+![Member Dashboard](./Screenshots/MemberDashborad.png)
 
 ---
 
