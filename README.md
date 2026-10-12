@@ -539,12 +539,32 @@ Several implicit `any` types and unused variable warnings were present in early 
 
 ## Author / Project Information
 
+<table>
+  <tr>
+    <td width="120" align="center">
+      <img src="https://github.com/Qazi-Burhan.png" width="80" height="80" style="border-radius:50%" alt="Syed Qazi Burhan"/>
+    </td>
+    <td>
+      <h3>Syed Qazi Burhan</h3>
+      <p><strong>Software Engineer</strong></p>
+      <p>
+        <a href="https://github.com/Qazi-Burhan">
+          <img src="https://img.shields.io/badge/GitHub-Qazi--Burhan-181717?style=flat&logo=github" alt="GitHub"/>
+        </a>
+        &nbsp;
+        <a href="https://www.linkedin.com/in/syed-qazi-burhan-ul-haq-36aa90333">
+          <img src="https://img.shields.io/badge/LinkedIn-Syed%20Qazi%20Burhan-0A66C2?style=flat&logo=linkedin" alt="LinkedIn"/>
+        </a>
+      </p>
+    </td>
+  </tr>
+</table>
+
 | Field | Details |
 |---|---|
-| **Author** | Supreme-Trader |
 | **Assignment** | Individual Week 3 Internship Project — UI/UX Editorial Product Redesign |
 | **Completed** | September 28, 2026 |
-| **Repository** | `wavenest-radio` |
+| **Repository** | [`wavenest-radio`](https://github.com/Qazi-Burhan/wavenest-radio) |
 | **Current Version** | 2.0.0 |
 
 ### Build Verification
