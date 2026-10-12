@@ -479,12 +479,12 @@ Several implicit `any` types and unused variable warnings were present in early 
 > Screenshots can be added here by dragging images into this section or using the Markdown image syntax below.
 
 ```markdown
-![Homepage Hero](./docs/screenshots/homepage-hero.png)
-![Shows Catalog](./docs/screenshots/shows-catalog.png)
-![Pricing Page](./docs/screenshots/pricing-page.png)
-![Signup Form](./docs/screenshots/signup-form.png)
-![Onboarding Wizard](./docs/screenshots/onboarding-wizard.png)
-![Member Dashboard](./docs/screenshots/member-dashboard.png)
+![Homepage Hero](https://Screenshots/Home.png)
+![Shows Catalog](https://Screenshots/Show.png)
+![Pricing Page](https://Screenshots/SighnUp.png)
+![Signup Form](https://Screenshots/SighnUp.png)
+![Onboarding Wizard](https://Screenshots/Onboarding.png)
+![Member Dashboard](https://Screenshots/MemberDashborad.png)
 ![Audio Player](./docs/screenshots/audio-player.png)
 ```
 
